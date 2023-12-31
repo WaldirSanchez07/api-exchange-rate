@@ -1,0 +1,28 @@
+server:
+  port: 8092
+
+spring:
+  application:
+    name: ms-exchange-rate-logs
+  r2dbc:
+    url: r2dbc:h2:mem:///db_exchange_rate
+  jpa:
+    show-sql: true
+
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    service-url:
+      defaultZone: http://${eureka.instance.hostname}:8761/eureka/
+    fetch-registry: true
+    register-with-eureka: true
+    enabled: true
+
+rest:
+  clients:
+    default:
+      url: http://localhost:8090
+    auth:
+      services:
+        find-user-by-token: /api/auth/user/find-by-token

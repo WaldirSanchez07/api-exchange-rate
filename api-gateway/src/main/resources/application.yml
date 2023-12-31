@@ -1,0 +1,44 @@
+server:
+  port: 8090
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      routes:
+        - id: ms-authentication
+          uri: lb://ms-authentication
+          predicates:
+            - Path=/api/auth/**
+        - id: ms-exchange-rate
+          uri: lb://ms-exchange-rate
+          predicates:
+            - Path=/api/exchange-rate/**
+          filters:
+            - AuthorizationFilter
+        - id: ms-exchange-rate-logs
+          uri: lb://ms-exchange-rate-logs
+          predicates:
+            - Path=/api/exchange-rate-logs/**
+          filters:
+            - AuthorizationFilter
+        - id: ms-exchange-rate-calculate
+          uri: lb://ms-exchange-rate-calculate
+          predicates:
+            - Path=/api/exchange-rate-calculate/**
+          filters:
+            - AuthorizationFilter
+
+auth:
+  uri: http://ms-authentication/api/auth
+
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    service-url:
+      defaultZone: http://${eureka.instance.hostname}:8761/eureka/
+    fetch-registry: true
+    register-with-eureka: true
+    enabled: true

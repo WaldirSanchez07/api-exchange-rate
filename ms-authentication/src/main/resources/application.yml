@@ -1,0 +1,23 @@
+server:
+  port: 8070
+
+spring:
+  application:
+    name: ms-authentication
+  r2dbc:
+    url: r2dbc:h2:mem:///db_exchange_rate
+  jpa:
+    show-sql: true
+
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    service-url:
+      defaultZone: http://${eureka.instance.hostname}:8761/eureka/
+    fetch-registry: true
+    register-with-eureka: true
+    enabled: true
+
+jwt:
+  secret: secret
