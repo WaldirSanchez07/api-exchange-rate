@@ -13,5 +13,8 @@ El servicio se encarga de calcular el tipo de cambio entre monedas.
 5. ms-exchange-rate-calculate
 6. api-gateway
 
+> [!NOTE]  
+> Importar en Postman los archivos de la carpeta "_postman", contiene variables de entorno y las solicitudes HTTP
+
 ### Arquitectura
 ![exchange-rate-diagram.drawio.svg](_diagram%2Fexchange-rate-diagram.drawio.svg)

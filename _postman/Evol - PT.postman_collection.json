@@ -1,0 +1,237 @@
+{
+	"info": {
+		"_postman_id": "8e1e7256-b1f8-4ecd-bba4-e7ae95485ba8",
+		"name": "Evol - PT",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "11606044"
+	},
+	"item": [
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "List users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "localhost:8090/api/auth/user/list"
+					},
+					"response": []
+				},
+				{
+					"name": "Login admin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"postman.setEnvironmentVariable(\"token_admin\", jsonData.token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"user1\",\r\n    \"password\": \"12345678\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:8090/api/auth/login"
+					},
+					"response": []
+				},
+				{
+					"name": "Login customer",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"postman.setEnvironmentVariable(\"token_customer\", jsonData.token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"user2\",\r\n    \"password\": \"12345678\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:8090/api/auth/login"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "ms-exchange-rate",
+			"item": [
+				{
+					"name": "Create",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token_admin}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"originCurrency\": \"PEN\",\r\n    \"fateCurrency\": \"USD\",\r\n    \"exchangeRate\": \"3.72\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:8090/api/exchange-rate/create"
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token_admin}}"
+							}
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": \"1\",\r\n    \"exchangeRate\": \"3.51\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:8090/api/exchange-rate/update"
+					},
+					"response": []
+				},
+				{
+					"name": "Find all",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token_admin}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "localhost:8090/api/exchange-rate/list"
+					},
+					"response": []
+				},
+				{
+					"name": "Find by Currency",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token_admin}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8090/api/exchange-rate/find-by-currency?origin=PEN&fate=USD",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"api",
+								"exchange-rate",
+								"find-by-currency"
+							],
+							"query": [
+								{
+									"key": "origin",
+									"value": "PEN"
+								},
+								{
+									"key": "fate",
+									"value": "USD"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "ms-exchange-logs",
+			"item": [
+				{
+					"name": "Find All",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token_admin}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "localhost:8090/api/exchange-rate-logs/list"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "ms-exchange-calculate",
+			"item": [
+				{
+					"name": "Calculate",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token_customer}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"originCurrency\": \"PEN\",\r\n    \"fateCurrency\": \"USD\",\r\n    \"originAmount\": 100.52\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:8090/api/exchange-rate-calculate"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
